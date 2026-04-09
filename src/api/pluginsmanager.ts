@@ -34,8 +34,8 @@ export const getPluginsExportAPI = () => {
 };
 
 // 导出插件为压缩包
-export const exportPluginAPI = (folderName: string) => {
-  return http.request<Blob>("post", baseUrlApi("pluginsmanager/export"), { data: {folderName} } as any, {
+export const exportPluginAPI = (folderName: string, includeData: boolean = true) => {
+  return http.request<Blob>("post", baseUrlApi("pluginsmanager/export"), { data: {folderName, includeData} } as any, {
     responseType: 'blob'
   } as any);
 };

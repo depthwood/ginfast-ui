@@ -54,12 +54,15 @@ GinFast Tenant UI 是一个基于 Vue3 + Vite6 + TypeScript + Arco Design 的现
 ginfast-tenant-front/
 ├── src/
 │   ├── api/                 # 框架 API 接口
+│   ├── assets/              # 静态资源（图片、字体、SVG图标等）
 │   ├── components/          # 全局组件
 │   ├── config/              # 全局配置
 │   ├── directives/          # 全局指令
+│   ├── globals/             # 全局自动导入函数（dictFilter, throttle, showMessage 等）⭐
 │   ├── hooks/               # Composition API Hooks
 │   ├── lang/                # 国际化
 │   ├── layout/              # 布局组件
+│   ├── mock/                # Mock 数据
 │   ├── plugins/             # 插件目录 ⭐
 │   ├── router/              # 路由配置
 │   ├── store/               # 状态管理

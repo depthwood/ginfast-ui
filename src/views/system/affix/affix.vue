@@ -22,11 +22,15 @@
                     v-hasPerm="['system:affix:upload']">
                     <template #upload-button>
                         <a-button type="primary" :loading="uploadLoading">
-                            <template #icon><icon-plus /></template>
+                            <template #icon><icon-upload /></template>
                             <span>上传文件</span>
                         </a-button>
                     </template>
                 </a-upload>
+                <a-button type="outline" @click="openChunkUpload" v-hasPerm="['system:affix:bigupload']">
+                    <template #icon><icon-upload /></template>
+                    <span>大文件上传</span>
+                </a-button>
             </a-space>
             <a-table row-key="id" :data="affixList" :bordered="{ cell: true }" :loading="loading"
                 :scroll="{ x: '100%', y: '75%' }" :pagination="pagination" @page-change="handlePageChange"
@@ -100,6 +104,15 @@
                 </a-form>
             </div>
         </a-modal>
+
+        <!-- 大文件分片上传对话框 -->
+        <a-modal v-model:visible="chunkUploadVisible" title="大文件上传" :footer="false" :width="700" @close="onChunkUploadClose">
+            <chunk-upload
+                ref="chunkUploadRef"
+                :auto-start="true"
+                @success="onChunkUploadSuccess"
+            />
+        </a-modal>
     </div>
 </template>
 
@@ -115,7 +128,29 @@ import { formatTime } from "@/globals";
 import { Message } from "@arco-design/web-vue";
 import { handleUrl, copyTextToClipboard } from "@/utils/app";
 import { useDevicesSize } from "@/hooks/useDevicesSize";
+import ChunkUpload from "@/components/upload/chunk-upload.vue";
 const { isMobile } = useDevicesSize();
+
+// 大文件分片上传
+const chunkUploadVisible = ref(false);
+const chunkUploadRef = ref();
+
+// 打开大文件上传弹窗
+const openChunkUpload = () => {
+    chunkUploadVisible.value = true;
+    // 等待组件渲染后清除已完成的文件
+    nextTick(() => {
+        chunkUploadRef.value?.clearDone();
+    });
+};
+
+const onChunkUploadSuccess = (_result: any) => {
+    Message.success("上传成功");
+    getAffixList();
+};
+const onChunkUploadClose = () => {
+    chunkUploadVisible.value = false;
+};
 const layoutMode = computed(() => {
   let info = {
     mobile: {

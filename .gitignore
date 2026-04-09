@@ -33,3 +33,5 @@ dist-ssr
 # src/plugins directory
 src/plugins/*/
 !src/plugins/example/
+/plans
+/AGENTS.md
