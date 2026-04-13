@@ -150,9 +150,36 @@ export const exportMenuAPI = (params: any) => {
     })
 };
 
+// 导入菜单信息
+export interface ImportMenuInfo {
+    id: number;
+    name: string;
+    title: string;
+    type: number;      // 1:目录 2:菜单 3:按钮
+    path: string;
+    permission: string;
+    parentId: number;
+}
+
+// 导入API信息
+export interface ImportApiInfo {
+    id: number;
+    path: string;
+    method: string;
+    description: string;
+}
+
+// 导入结果
+export interface ImportResult {
+    newMenus: ImportMenuInfo[];
+    newApis: ImportApiInfo[];
+    totalMenus: number;
+    totalApis: number;
+}
+
 // 导入菜单
 export const importMenuAPI = (data: FormData) => {
-    return http.request<BaseResult>("post", baseUrlApi("sysMenu/import"), {
+    return http.request<BaseResult<ImportResult>>("post", baseUrlApi("sysMenu/import"), {
         data,
         headers: {
             "Content-Type": "multipart/form-data"
