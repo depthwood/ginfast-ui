@@ -23,7 +23,7 @@
         </template>
       </s-layout-tools>
 
-      <a-row :gutter="16" style="padding: 16px 0">
+      <a-row :gutter="[16, 16]" style="padding: 16px 0">
         <a-col :xs="24" :sm="12" :md="8" :lg="6" v-for="plugin in filteredPlugins" :key="plugin.folderName">
           <a-card hoverable @click="viewDetail(plugin)">
             <template #cover>

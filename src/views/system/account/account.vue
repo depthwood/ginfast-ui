@@ -51,16 +51,27 @@
                                 <a-table-column title="ID" data-index="id" :width="70" align="center"></a-table-column>
                                 <a-table-column title="用户名称" data-index="userName" :width="150"></a-table-column>
                                 <a-table-column title="昵称" data-index="nickName" :width="150"></a-table-column>
-                                <a-table-column title="性别" data-index="sex" align="center" :width="60">
+                                <!-- <a-table-column title="性别" data-index="sex" align="center" :width="60">
                                     <template #cell="{ record }">
                                         <a-tag bordered size="small" color="arcoblue" v-if="record.sex == 1">男</a-tag>
                                         <a-tag bordered size="small" color="red" v-else-if="record.sex == 0">女</a-tag>
                                         <a-tag bordered size="small" v-else>未知</a-tag>
                                     </template>
-                                </a-table-column>
+                                </a-table-column> -->
                                 <a-table-column title="部门" data-index="deptId" :width="150">
                                     <template #cell="{ record }">{{ record.department ? record.department.name : ""
                                         }}</template>
+                                </a-table-column>
+                                <a-table-column title="角色" data-index="roles" :width="200">
+                                    <template #cell="{ record }">
+                                        <a-space wrap v-if="record.roles && record.roles.length">
+                                            <a-tag v-for="role in record.roles" :key="role.id" bordered size="small"
+                                                color="arcoblue">
+                                                {{ role.name }}
+                                            </a-tag>
+                                        </a-space>
+                                        <span v-else>-</span>
+                                    </template>
                                 </a-table-column>
                                 <a-table-column title="手机号" data-index="phone" :width="150"></a-table-column>
                                 <a-table-column title="状态" :width="100" align="center">
@@ -69,8 +80,8 @@
                                         <a-tag bordered size="small" color="red" v-else>禁用</a-tag>
                                     </template>
                                 </a-table-column>
-                                <a-table-column title="描述" data-index="description" :ellipsis="true"
-                                    :tooltip="true" :width="150"></a-table-column>
+                                <!-- <a-table-column title="描述" data-index="description" :ellipsis="true"
+                                    :tooltip="true" :width="150"></a-table-column> -->
                                 <a-table-column title="创建时间" data-index="createdAt" :width="180">
                                     <template #cell="{ record }">
                                         {{ record.createdAt ? formatTime(record.createdAt) : "" }}

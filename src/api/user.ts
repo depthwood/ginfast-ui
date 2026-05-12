@@ -76,6 +76,8 @@ export interface AccountItem {
     avatar: string;
     createdBy: number;
     description: string;
+    roles?: Array<RoleItem>;
+    department?: DivisionItem;
 }
 
 // 用户详情

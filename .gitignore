@@ -30,6 +30,8 @@ dist-ssr
 # Roo
 .roo/
 
+# claude
+CLAUDE.md
 # src/plugins directory
 src/plugins/*/
 !src/plugins/example/
