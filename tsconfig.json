@@ -9,7 +9,7 @@
     "checkJs": true, // 报告 javascript 文件中的错误
 
     /* 模块解析 */
-    "moduleResolution": "node", //模块解析策略。默认使用node的模块解析策略
+    "moduleResolution": "bundler", //模块解析策略。默认使用node的模块解析策略
     "allowImportingTsExtensions": true, // 允许导入包含 TypeScript 文档扩展名。
     "resolveJsonModule": true, //允许导入扩展名为".json"的模块
     "sourceMap": true, // 是否生成相应的Map映射的文件，默认：false
@@ -26,10 +26,10 @@
     "skipLibCheck": true, //忽略所有的声明文件（ *.d.ts）的类型检查
 
     /* path */
-    "baseUrl": "./", // 解析非相对模块的基地址，默认是当前目录
+    // "baseUrl": "./", // 已移除（TypeScript 7.0 不再支持）
     "paths": {
-      // 模块名到基于 baseUrl的路径映射的列表
-      "@/*": ["src/*"]
+      // 模块名到基于当前 tsconfig.json 所在目录的路径映射
+      "@/*": ["./src/*"]
     }
   },
   // include也可以指定要编译的路径列表，这里的路径可以是文件夹，也可以是文件，可以使用相对和绝对路径，而且可以使用通配符，比如"./src"即表示要编译src文件夹下的所有文件以及子文件夹的文件

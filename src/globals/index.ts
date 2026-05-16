@@ -195,6 +195,7 @@ export const formatTime = (
           date = date.local();
         }
       } catch (e) {
+        console.warn('Failed to convert UTC to local time:', e);
         date = date.local();
       }
     }
@@ -205,8 +206,9 @@ export const formatTime = (
     // 提供安全的降级方案
     try {
       return dayjs(time).isValid() ? dayjs(time).format(format) : 'Invalid Date';
-    } catch {
-      return 'Invalid Date';
+    } catch (e) {
+        console.warn('Fallback format time failed:', e);
+        return 'Invalid Date';
     }
   }
 };

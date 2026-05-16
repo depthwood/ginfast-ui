@@ -89,6 +89,9 @@ importers:
       sortablejs:
         specifier: ^1.15.2
         version: 1.15.6
+      spark-md5:
+        specifier: ^3.0.2
+        version: 3.0.2
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -97,7 +100,7 @@ importers:
         version: 3.5.15(typescript@5.8.3)
       vue-codemirror6:
         specifier: ^1.3.0
-        version: 1.3.15(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(core-js@3.42.0)(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3))
+        version: 1.3.15(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3))
       vue-color-kit:
         specifier: ^1.0.6
         version: 1.0.6(vue@3.5.15(typescript@5.8.3))
@@ -119,9 +122,6 @@ importers:
       vuedraggable:
         specifier: ^4.1.0
         version: 4.1.0(vue@3.5.15(typescript@5.8.3))
-      xgplayer:
-        specifier: ^3.0.18
-        version: 3.0.22(core-js@3.42.0)
       xlsx:
         specifier: ^0.18.5
         version: 0.18.5
@@ -153,6 +153,9 @@ importers:
       '@types/qs':
         specifier: ^6.14.0
         version: 6.14.0
+      '@types/spark-md5':
+        specifier: ^3.0.5
+        version: 3.0.5
       '@types/xlsx':
         specifier: ^0.0.36
         version: 0.0.36
@@ -1265,6 +1268,9 @@ packages:
   '@types/qs@6.14.0':
     resolution: {integrity: sha512-eOunJqu0K1923aExK6y8p6fsihYEn/BYuQ4g0CxAAgFc4b/ZLN4CrsRZ55srTdqoiLzU2B2evC+apEIxprEzkQ==}
 
+  '@types/spark-md5@3.0.5':
+    resolution: {integrity: sha512-lWf05dnD42DLVKQJZrDHtWFidcLrHuip01CtnC2/S6AMhX4t9ZlEUj4iuRlAnts0PQk7KESOqKxeGE/b6sIPGg==}
+
   '@types/svgo@2.6.4':
     resolution: {integrity: sha512-l4cmyPEckf8moNYHdJ+4wkHvFxjyW6ulm9l4YGaOxeyBWPhBOT0gvni1InpFPdzx1dKf/2s62qGITwxNWnPQng==}
 
@@ -1578,6 +1584,11 @@ packages:
 
   acorn@8.14.1:
     resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
+  acorn@8.16.0:
+    resolution: {integrity: sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -1940,9 +1951,6 @@ packages:
     resolution: {integrity: sha512-XgZ0pFcakEUlbwQEVNg3+QAis1FyTL3Qel9FYy8pSkQqoG3PNoT0bOCQtOXcOkur21r2Eq2kI+IE+gsmAEVlYw==}
     engines: {node: '>=0.10.0'}
 
-  core-js@3.42.0:
-    resolution: {integrity: sha512-Sz4PP4ZA+Rq4II21qkNqOEDTDrCvcANId3xpIgB34NDkWc3UduWj2dqEtN9yZIq8Dk3HyPI33x9sqqU5C8sr0g==}
-
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
@@ -2052,9 +2060,6 @@ packages:
     resolution: {integrity: sha512-MOqHvMWF9/9MX6nza0KgvFH4HpMU0EF5uUDXqX/BtxtU8NfB0QzRtJ8Oe/6SuS4kbhyzVJwjd97EA4PKrzJ8bw==}
     engines: {node: '>=0.12'}
 
-  danmu.js@1.1.13:
-    resolution: {integrity: sha512-knFd0/cB2HA4FFWiA7eB2suc5vCvoHdqio33FyyCSfP7C+1A+zQcTvnvwfxaZhrxsGj4qaQI2I8XiTqedRaVmg==}
-
   dargs@8.1.0:
     resolution: {integrity: sha512-wAV9QHOsNbwnWdNW2FYvE1P56wtgSbM+3SZcdGiWQILwVjACCXDCI3Ai8QlCjMDB8YK5zySiXZYBiwGmNY3lnw==}
     engines: {node: '>=12'}
@@ -2087,6 +2092,15 @@ packages:
 
   debug@4.4.1:
     resolution: {integrity: sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@4.4.3:
+    resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -2128,9 +2142,6 @@ packages:
   delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
-
-  delegate@3.2.0:
-    resolution: {integrity: sha512-IofjkYBZaZivn0V8nnsMJGBr4jVLxHDheKSW88PyxS5QC4Vo9ZbZVvhzlSxY87fVq3STR6r+4cGepyHkcWOQSw==}
 
   dijkstrajs@1.0.3:
     resolution: {integrity: sha512-qiSlmBq9+BCdCA/L46dw8Uy93mloxsPSbwnm5yrKn2vMPiy8KyAskTF6zuV/j5BMsmOGZDPs7KjU+mjb670kfA==}
@@ -2180,9 +2191,6 @@ packages:
   dot-prop@5.3.0:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
     engines: {node: '>=8'}
-
-  downloadjs@1.4.7:
-    resolution: {integrity: sha512-LN1gO7+u9xjU5oEScGFKvXhYf7Y/empUIIEAGBs1LzUq/rg5duiDrkuH5A2lQGd5jfMOb9X9usDa2oVXwJ0U/Q==}
 
   driver.js@1.3.6:
     resolution: {integrity: sha512-g2nNuu+tWmPpuoyk3ffpT9vKhjPz4NrJzq6mkRDZIwXCrFhrKdDJ9TX5tJOBpvCTBrBYjgRQ17XlcQB15q4gMg==}
@@ -2447,12 +2455,20 @@ packages:
     resolution: {integrity: sha512-pUNxi75F8MJ/GdeKtVLSbYg4ZI34J6C0C7sbL4YOp2exGwen7ZsuBqKzUhXd0qMQ362yET3z+uPwKeg/0C2XCQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  eslint-scope@8.4.0:
+    resolution: {integrity: sha512-sNXOfKCn74rt8RICKMvJS7XKV/Xk9kA7DyJr8mJik3S7Cwgy3qlkkmyS2uQB3jiJg6VNdZd/pDBJu0nvG2NlTg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   eslint-visitor-keys@3.4.3:
     resolution: {integrity: sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   eslint-visitor-keys@4.2.0:
     resolution: {integrity: sha512-UyLnSehNt62FFhSwjZlHmeokpRK59rcz29j+F1/aDgbkbRTk7wIc9XzdoasMUbRNKDM0qQt/+BJ4BrpFeABemw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  eslint-visitor-keys@4.2.1:
+    resolution: {integrity: sha512-Uhdk5sfqcee/9H/rCOJikYz67o0a2Tw2hGRPOG2Y1R2dg7brRe1uG0yaNQDHu+TO/uQPF/5eCapvYSmHUjt7JQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   eslint@9.27.0:
@@ -2473,8 +2489,16 @@ packages:
     resolution: {integrity: sha512-0QYC8b24HWY8zjRnDTL6RiHfDbAWn63qb4LMj1Z4b076A4une81+z03Kg7l7mn/48PUTqoLptSXez8oknU8Clg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  espree@10.4.0:
+    resolution: {integrity: sha512-j6PAQ2uUr79PZhBjP5C5fhl8e39FmRnOjsD5lGnWrFU8i2G776tBK7+nP8KuQUTTyAZUwfQqXAgrVH5MbH9CYQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   esquery@1.6.0:
     resolution: {integrity: sha512-ca9pw9fomFcKPvFLXhBKUK90ZvGibiGOvRJNbjljY7s7uq/5YO4BOzcYtJqExdx99rF6aAcnRxHmcUHcz6sQsg==}
+    engines: {node: '>=0.10'}
+
+  esquery@1.7.0:
+    resolution: {integrity: sha512-Ap6G0WQwcU/LHsvLwON1fAQX9Zp0A2Y6Y/cJBl9r/JbW90Zyg4/zbG6zzKa2OTALELarYHmKu0GhpM5EO+7T0g==}
     engines: {node: '>=0.10'}
 
   esrecurse@4.3.0:
@@ -2711,6 +2735,10 @@ packages:
 
   gifuct-js@2.1.2:
     resolution: {integrity: sha512-rI2asw77u0mGgwhV3qA+OEgYqaDn5UNqgs+Bx0FGwSpuqfYn+Ir6RQY5ENNQ8SbIiG/m5gVa7CD5RriO4f4Lsg==}
+
+  'ginfast-tenant-ui@file:':
+    resolution: {directory: '', type: directory}
+    engines: {node: '>= 18.12.0', pnpm: '>= 8.7.0'}
 
   git-raw-commits@4.0.0:
     resolution: {integrity: sha512-ICsMM1Wk8xSGMowkOmPrzo2Fgmfo4bMHLNX6ytHjajRJUqvHOw/TFapQ+QG75c3X/tTDDhOSRPGC52dDbNM8FQ==}
@@ -4192,6 +4220,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.8.0:
+    resolution: {integrity: sha512-AcM7dV/5ul4EekoQ29Agm5vri8JNqRyj39o0qpX6vDF2GZrtutZl5RwgD1XnZjiTAfncsJhMI48QQH3sN87YNA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
@@ -4299,10 +4332,6 @@ packages:
     resolution: {integrity: sha512-FtyOnWN/wCHTVXOMwvSv26d+ko5vWlIDD6zoUJ7LW8vh+ZBC8QdljveRP+crNrtBwioEUWy/4dMtbBjA4ioNlg==}
     engines: {node: '>=0.10.0'}
 
-  'snow-admin@file:':
-    resolution: {directory: '', type: directory}
-    engines: {node: '>= 18.12.0', pnpm: '>= 8.7.0'}
-
   sortablejs@1.14.0:
     resolution: {integrity: sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==}
 
@@ -4331,6 +4360,9 @@ packages:
   source-map@0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+
+  spark-md5@3.0.2:
+    resolution: {integrity: sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==}
 
   split-string@3.1.0:
     resolution: {integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==}
@@ -4970,16 +5002,6 @@ packages:
   write-file-atomic@5.0.1:
     resolution: {integrity: sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-
-  xgplayer-subtitles@3.0.22:
-    resolution: {integrity: sha512-2XjamtZnWS/r4QjesOC34JmuGD3QPbgeqkI4t5Gq19dN1CWNBP7nJ8pbGLuAeHswKjGg8LFRpnsic7xjc/XSyA==}
-    peerDependencies:
-      core-js: '>=3.12.1'
-
-  xgplayer@3.0.22:
-    resolution: {integrity: sha512-uVKffa02NxWnWMVzgnrU0HGwZFH0ymPHsD3zGxtV6oPPplA6EBLyh9N5q3b++J7jRs2usvKR2+WslT+je1RuwA==}
-    peerDependencies:
-      core-js: '>=3.12.1'
 
   xlsx@0.18.5:
     resolution: {integrity: sha512-dmg3LCjBPHZnQp5/F/+nnTa+miPJxUXB6vtk42YjBBKayDNagxGEeIdWApkYPOf3Z3pm3k62Knjzp7lMeTEtFQ==}
@@ -5996,6 +6018,8 @@ snapshots:
 
   '@types/qs@6.14.0': {}
 
+  '@types/spark-md5@3.0.5': {}
+
   '@types/svgo@2.6.4':
     dependencies:
       '@types/node': 22.15.21
@@ -6506,7 +6530,13 @@ snapshots:
     dependencies:
       acorn: 8.14.1
 
+  acorn-jsx@5.3.2(acorn@8.16.0):
+    dependencies:
+      acorn: 8.16.0
+
   acorn@8.14.1: {}
+
+  acorn@8.16.0: {}
 
   adler-32@1.3.1: {}
 
@@ -6905,8 +6935,6 @@ snapshots:
 
   copy-descriptor@0.1.1: {}
 
-  core-js@3.42.0: {}
-
   core-util-is@1.0.3: {}
 
   cors@2.8.5:
@@ -7009,10 +7037,6 @@ snapshots:
       es5-ext: 0.10.64
       type: 2.7.3
 
-  danmu.js@1.1.13:
-    dependencies:
-      event-emitter: 0.3.5
-
   dargs@8.1.0: {}
 
   data-view-buffer@1.0.2:
@@ -7042,6 +7066,10 @@ snapshots:
       ms: 2.0.0
 
   debug@4.4.1:
+    dependencies:
+      ms: 2.1.3
+
+  debug@4.4.3:
     dependencies:
       ms: 2.1.3
 
@@ -7077,8 +7105,6 @@ snapshots:
       isobject: 3.0.1
 
   delayed-stream@1.0.0: {}
-
-  delegate@3.2.0: {}
 
   dijkstrajs@1.0.3: {}
 
@@ -7143,8 +7169,6 @@ snapshots:
   dot-prop@5.3.0:
     dependencies:
       is-obj: 2.0.0
-
-  downloadjs@1.4.7: {}
 
   driver.js@1.3.6: {}
 
@@ -7425,9 +7449,16 @@ snapshots:
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
+  eslint-scope@8.4.0:
+    dependencies:
+      esrecurse: 4.3.0
+      estraverse: 5.3.0
+
   eslint-visitor-keys@3.4.3: {}
 
   eslint-visitor-keys@4.2.0: {}
+
+  eslint-visitor-keys@4.2.1: {}
 
   eslint@9.27.0(jiti@2.4.2):
     dependencies:
@@ -7484,7 +7515,17 @@ snapshots:
       acorn-jsx: 5.3.2(acorn@8.14.1)
       eslint-visitor-keys: 4.2.0
 
+  espree@10.4.0:
+    dependencies:
+      acorn: 8.16.0
+      acorn-jsx: 5.3.2(acorn@8.16.0)
+      eslint-visitor-keys: 4.2.1
+
   esquery@1.6.0:
+    dependencies:
+      estraverse: 5.3.0
+
+  esquery@1.7.0:
     dependencies:
       estraverse: 5.3.0
 
@@ -7760,6 +7801,54 @@ snapshots:
   gifuct-js@2.1.2:
     dependencies:
       js-binary-schema-parser: 2.0.3
+
+  ginfast-tenant-ui@file:(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(typescript@5.8.3):
+    dependencies:
+      '@arco-design/color': 0.4.0
+      '@arco-themes/vue-gi-demo': 0.0.51(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))
+      '@codemirror/lang-javascript': 6.2.4
+      '@codemirror/lang-json': 6.0.1
+      '@codemirror/lang-vue': 0.1.3
+      '@codemirror/theme-one-dark': 6.1.2
+      '@visactor/vchart': 1.13.10
+      '@visactor/vchart-arco-theme': 1.12.2(@visactor/vchart@1.13.10)
+      '@vueuse/core': 12.8.2(typescript@5.8.3)
+      '@wangeditor/editor': 5.1.23
+      '@wangeditor/editor-for-vue': 5.1.12(@wangeditor/editor@5.1.23)(vue@3.5.15(typescript@5.8.3))
+      axios: 1.9.0
+      codemirror: 6.0.1
+      dayjs: 1.11.13
+      driver.js: 1.3.6
+      js-cookie: 3.0.5
+      jsbarcode: 3.11.6
+      lodash: 4.17.21
+      nprogress: 0.2.0
+      pinia: 2.3.1(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3))
+      pinia-plugin-persistedstate: 3.2.3(pinia@2.3.1(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3)))
+      pinyin-pro: 3.26.0
+      print-js: 1.6.0
+      qrcode: 1.5.4
+      qs: 6.14.0
+      recorder-core: 1.3.25011100
+      sortablejs: 1.15.6
+      spark-md5: 3.0.2
+      uuid: 11.1.0
+      vue: 3.5.15(typescript@5.8.3)
+      vue-codemirror6: 1.3.15(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3))
+      vue-color-kit: 1.0.6(vue@3.5.15(typescript@5.8.3))
+      vue-cropper: 1.1.4
+      vue-i18n: 10.0.0-alpha.3(vue@3.5.15(typescript@5.8.3))
+      vue-pick-colors: 1.8.0(@popperjs/core@2.11.8)(vue@3.5.15(typescript@5.8.3))
+      vue-router: 4.5.1(vue@3.5.15(typescript@5.8.3))
+      vue-virtual-scroller: 2.0.0-beta.8(vue@3.5.15(typescript@5.8.3))
+      vuedraggable: 4.1.0(vue@3.5.15(typescript@5.8.3))
+      xlsx: 0.18.5
+    transitivePeerDependencies:
+      - '@arco-design/web-vue'
+      - '@popperjs/core'
+      - '@vue/composition-api'
+      - debug
+      - typescript
 
   git-raw-commits@4.0.0:
     dependencies:
@@ -9211,6 +9300,8 @@ snapshots:
 
   semver@7.7.2: {}
 
+  semver@7.8.0: {}
+
   set-blocking@2.0.0: {}
 
   set-function-length@1.2.2:
@@ -9357,55 +9448,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  snow-admin@file:(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(core-js@3.42.0)(typescript@5.8.3):
-    dependencies:
-      '@arco-design/color': 0.4.0
-      '@arco-themes/vue-gi-demo': 0.0.51(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))
-      '@codemirror/lang-javascript': 6.2.4
-      '@codemirror/lang-json': 6.0.1
-      '@codemirror/lang-vue': 0.1.3
-      '@codemirror/theme-one-dark': 6.1.2
-      '@visactor/vchart': 1.13.10
-      '@visactor/vchart-arco-theme': 1.12.2(@visactor/vchart@1.13.10)
-      '@vueuse/core': 12.8.2(typescript@5.8.3)
-      '@wangeditor/editor': 5.1.23
-      '@wangeditor/editor-for-vue': 5.1.12(@wangeditor/editor@5.1.23)(vue@3.5.15(typescript@5.8.3))
-      axios: 1.9.0
-      codemirror: 6.0.1
-      dayjs: 1.11.13
-      driver.js: 1.3.6
-      js-cookie: 3.0.5
-      jsbarcode: 3.11.6
-      lodash: 4.17.21
-      nprogress: 0.2.0
-      pinia: 2.3.1(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3))
-      pinia-plugin-persistedstate: 3.2.3(pinia@2.3.1(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3)))
-      pinyin-pro: 3.26.0
-      print-js: 1.6.0
-      qrcode: 1.5.4
-      qs: 6.14.0
-      recorder-core: 1.3.25011100
-      sortablejs: 1.15.6
-      uuid: 11.1.0
-      vue: 3.5.15(typescript@5.8.3)
-      vue-codemirror6: 1.3.15(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(core-js@3.42.0)(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3))
-      vue-color-kit: 1.0.6(vue@3.5.15(typescript@5.8.3))
-      vue-cropper: 1.1.4
-      vue-i18n: 10.0.0-alpha.3(vue@3.5.15(typescript@5.8.3))
-      vue-pick-colors: 1.8.0(@popperjs/core@2.11.8)(vue@3.5.15(typescript@5.8.3))
-      vue-router: 4.5.1(vue@3.5.15(typescript@5.8.3))
-      vue-virtual-scroller: 2.0.0-beta.8(vue@3.5.15(typescript@5.8.3))
-      vuedraggable: 4.1.0(vue@3.5.15(typescript@5.8.3))
-      xgplayer: 3.0.22(core-js@3.42.0)
-      xlsx: 0.18.5
-    transitivePeerDependencies:
-      - '@arco-design/web-vue'
-      - '@popperjs/core'
-      - '@vue/composition-api'
-      - core-js
-      - debug
-      - typescript
-
   sortablejs@1.14.0: {}
 
   sortablejs@1.15.6: {}
@@ -9430,6 +9472,8 @@ snapshots:
   source-map@0.5.7: {}
 
   source-map@0.6.1: {}
+
+  spark-md5@3.0.2: {}
 
   split-string@3.1.0:
     dependencies:
@@ -10003,7 +10047,7 @@ snapshots:
 
   vscode-uri@3.1.0: {}
 
-  vue-codemirror6@1.3.15(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(core-js@3.42.0)(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3)):
+  vue-codemirror6@1.3.15(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3)):
     dependencies:
       '@codemirror/commands': 6.8.1
       '@codemirror/language': 6.11.0
@@ -10013,13 +10057,12 @@ snapshots:
       codemirror: 6.0.1
       style-mod: 4.1.2
       vue: 3.5.15(typescript@5.8.3)
-      vue-codemirror6: snow-admin@file:(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(core-js@3.42.0)(typescript@5.8.3)
+      vue-codemirror6: ginfast-tenant-ui@file:(@arco-design/web-vue@2.57.0(vue@3.5.15(typescript@5.8.3)))(@popperjs/core@2.11.8)(typescript@5.8.3)
       vue-demi: 0.14.10(vue@3.5.15(typescript@5.8.3))
     transitivePeerDependencies:
       - '@arco-design/web-vue'
       - '@popperjs/core'
       - '@vue/composition-api'
-      - core-js
       - debug
       - typescript
 
@@ -10035,13 +10078,13 @@ snapshots:
 
   vue-eslint-parser@10.2.0(eslint@9.27.0(jiti@2.4.2)):
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       eslint: 9.27.0(jiti@2.4.2)
-      eslint-scope: 8.3.0
-      eslint-visitor-keys: 4.2.0
-      espree: 10.3.0
-      esquery: 1.6.0
-      semver: 7.7.2
+      eslint-scope: 8.4.0
+      eslint-visitor-keys: 4.2.1
+      espree: 10.4.0
+      esquery: 1.7.0
+      semver: 7.8.0
     transitivePeerDependencies:
       - supports-color
 
@@ -10183,20 +10226,6 @@ snapshots:
     dependencies:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
-
-  xgplayer-subtitles@3.0.22(core-js@3.42.0):
-    dependencies:
-      core-js: 3.42.0
-      eventemitter3: 4.0.7
-
-  xgplayer@3.0.22(core-js@3.42.0):
-    dependencies:
-      core-js: 3.42.0
-      danmu.js: 1.1.13
-      delegate: 3.2.0
-      downloadjs: 1.4.7
-      eventemitter3: 4.0.7
-      xgplayer-subtitles: 3.0.22(core-js@3.42.0)
 
   xlsx@0.18.5:
     dependencies:

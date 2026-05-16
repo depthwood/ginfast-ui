@@ -30,7 +30,7 @@
                     </a-space>
                 </template>
             </s-layout-tools>
-            <a-table row-key="id" :data="tableData" :bordered="{ cell: true }" :loading="loading"
+            <a-table row-key="id" :data="tableData" :bordered="{ cell: true }" :loading="loading" column-resizable
                 :pagination="pagination" @page-change="onPageChange" @page-size-change="onPageSizeChange"
                 :scroll="{ x: '100%', y: '100%', minWidth: 1000 }">
                 <template #columns>
@@ -73,7 +73,7 @@
             </a-table>
         </div>
 
-        <a-modal :width="layoutMode.width" v-model:visible="open" @close="afterClose" :on-before-ok="handleOk" @cancel="afterClose">
+        <a-modal :width="layoutMode.width" v-model:visible="open" @close="afterClose" :on-before-ok="handleOk" @cancel="afterClose" draggable>
             <template #title> {{ title }} </template>
             <div>
                 <a-form ref="formRef" :layout="layoutMode.layout" auto-label-width :rules="rules" :model="addFrom">

@@ -23,7 +23,7 @@
         </template>
       </s-layout-tools>
 
-      <a-row :gutter="16" style="padding: 16px 0">
+      <a-row :gutter="[16, 16]" style="padding: 16px 0">
         <a-col :xs="24" :sm="12" :md="8" :lg="6" v-for="plugin in filteredPlugins" :key="plugin.folderName">
           <a-card hoverable @click="viewDetail(plugin)">
             <template #cover>
@@ -91,21 +91,28 @@
         </a-descriptions-item>
       </a-descriptions>
       <div style="margin-top: 24px; text-align: right;">
-        <a-space>
-          <a-button type="primary" @click="exportPlugin(currentPlugin)" v-hasPerm="['system:pluginsmanager:export']">
-            <template #icon><icon-download /></template>
-            <span>导出插件</span>
-          </a-button>
-          <a-popconfirm title="确定要卸载此插件吗？" content="卸载后将删除插件的所有文件和数据库表。" type="warning" @ok="handleDeletePlugin">
-            <a-button type="primary" status="danger" v-hasPerm="['system:pluginsmanager:uninstall']">
-              <template #icon><icon-delete /></template>
-              <span>卸载插件</span>
+        <a-space direction="vertical" :size="12" style="width: 100%;">
+          <div style="text-align: right;">
+            <a-checkbox v-model="exportIncludeData">
+              导出包含数据库数据（不勾选则只会导出结构）
+            </a-checkbox>
+          </div>
+          <a-space>
+            <a-button type="primary" @click="exportPlugin(currentPlugin)" v-hasPerm="['system:pluginsmanager:export']">
+              <template #icon><icon-download /></template>
+              <span>导出插件</span>
             </a-button>
-          </a-popconfirm>
-          <a-button @click="detailVisible = false">
-            <template #icon><icon-close /></template>
-            <span>退出</span>
-          </a-button>
+            <a-popconfirm title="确定要卸载此插件吗？" content="卸载后将删除插件的所有文件和数据库表。" type="warning" @ok="handleDeletePlugin">
+              <a-button type="primary" status="danger" v-hasPerm="['system:pluginsmanager:uninstall']">
+                <template #icon><icon-delete /></template>
+                <span>卸载插件</span>
+              </a-button>
+            </a-popconfirm>
+            <a-button @click="detailVisible = false">
+              <template #icon><icon-close /></template>
+              <span>退出</span>
+            </a-button>
+          </a-space>
         </a-space>
       </div>
     </a-modal>
@@ -153,6 +160,9 @@ const loading = ref(false)
 const detailVisible = ref(false)
 const currentPlugin = ref<PluginExport>({} as PluginExport)
 
+// 导出时是否包含数据库数据
+const exportIncludeData = ref(true)
+
 // 导入弹窗
 const importModalVisible = ref(false)
 
@@ -186,7 +196,7 @@ const getPluginsList = async () => {
 const exportPlugin = async (plugin: PluginExport) => {
   try {
     proxy.$message.loading('插件导出中...')
-    const response = await exportPluginAPI(plugin.folderName)
+    const response = await exportPluginAPI(plugin.folderName, exportIncludeData.value)
     
     // 获取blob并下载
     const blob = new Blob([response], { type: 'application/zip' })

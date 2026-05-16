@@ -331,12 +331,91 @@
         <s-api-permission v-model:visible="apiPermissionVisible" :menu-id="currentMenuRecord?.id"
             :menu-name="currentMenuRecord?.title" @success="onApiPermissionSuccess"
             :showSelected="currentMenuRecord?.apis?.length > 0" />
+
+        <!-- 导入模式选择对话框 -->
+        <a-modal v-model:visible="importModeVisible" title="选择导入模式" :footer="false" :mask-closable="false" :esc-to-close="false">
+            <div class="import-mode-content">
+                <p>请选择菜单导入模式：覆盖导入只添加不存在的数据，普通导入全部新建。</p>
+                <a-space :size="20" class="import-mode-buttons">
+                    <a-button type="primary" @click="onImportOverwrite">覆盖导入</a-button>
+                    <a-button @click="onImportNormal">普通导入</a-button>
+                </a-space>
+            </div>
+        </a-modal>
+
+        <!-- 导入结果展示弹窗 -->
+        <a-modal
+            v-model:visible="importResultVisible"
+            title="导入结果"
+            width="800px"
+            :footer="false"
+        >
+            <div class="import-result-content">
+                <a-alert type="success" style="margin-bottom: 16px;">
+                    <template #icon>
+                        <icon-check-circle-fill />
+                    </template>
+                    导入成功！新增 {{ importResult?.totalMenus || 0 }} 个菜单，{{ importResult?.totalApis || 0 }} 个API
+                </a-alert>
+                
+                <!-- 新增菜单列表 -->
+                <div v-if="importResult?.newMenus?.length" class="result-section">
+                    <h4>新增菜单</h4>
+                    <a-table
+                        :data="importResult.newMenus"
+                        :pagination="false"
+                        size="small"
+                        :bordered="{ cell: true }"
+                    >
+                        <template #columns>
+                            <a-table-column title="ID" data-index="id" :width="60" />
+                            <a-table-column title="名称" data-index="title" :width="150" />
+                            <a-table-column title="类型" align="center" :width="80">
+                                <template #cell="{ record }">
+                                    <a-tag v-if="record.type == 1" bordered size="small" color="purple">目录</a-tag>
+                                    <a-tag v-else-if="record.type == 2" bordered size="small" color="green">菜单</a-tag>
+                                    <a-tag v-else bordered size="small" color="gray">按钮</a-tag>
+                                </template>
+                            </a-table-column>
+                            <a-table-column title="路径" data-index="path" :width="150" />
+                            <a-table-column title="权限标识" data-index="permission" :width="150" />
+                        </template>
+                    </a-table>
+                </div>
+                
+                <!-- 新增API列表 -->
+                <div v-if="importResult?.newApis?.length" class="result-section" style="margin-top: 16px;">
+                    <h4>新增API</h4>
+                    <a-table
+                        :data="importResult.newApis"
+                        :pagination="false"
+                        size="small"
+                        :bordered="{ cell: true }"
+                    >
+                        <template #columns>
+                            <a-table-column title="ID" data-index="id" :width="60" />
+                            <a-table-column title="路径" data-index="path" :width="200" />
+                            <a-table-column title="方法" align="center" :width="80">
+                                <template #cell="{ record }">
+                                    <a-tag :color="getMethodColor(record.method)">{{ record.method }}</a-tag>
+                                </template>
+                            </a-table-column>
+                            <a-table-column title="描述" data-index="description" />
+                        </template>
+                    </a-table>
+                </div>
+                
+                <div style="text-align: right; margin-top: 16px;">
+                    <a-button type="primary" @click="importResultVisible = false">关闭</a-button>
+                </div>
+            </div>
+        </a-modal>
     </div>
 </template>
 
 <script setup lang="ts">
 import SApiPermission from "@/components/s-api-permission/index.vue";
-import { type MenuItem, getMenuListAPI, addMenuAPI, updateMenuAPI, deleteMenuAPI, exportMenuAPI, importMenuAPI, deleteMenusAPI } from "@/api/menu";
+import { type MenuItem, getMenuListAPI, addMenuAPI, updateMenuAPI, deleteMenuAPI, exportMenuAPI, importMenuAPI, deleteMenusAPI, type ImportResult } from "@/api/menu";
 import useGlobalProperties from "@/hooks/useGlobalProperties";
 import { deepClone, getPascalCase } from "@/utils";
 import { useDevicesSize } from "@/hooks/useDevicesSize";
@@ -789,8 +868,46 @@ const onExport = async () => {
 
 
 const fileInputRef = ref<HTMLInputElement | null>(null);
-// 导入菜单
+const importOverwrite = ref(false);
+const importModeVisible = ref(false);
+
+// 导入结果
+const importResultVisible = ref(false);
+const importResult = ref<ImportResult | null>(null);
+
+// 获取HTTP方法颜色
+const getMethodColor = (method: string) => {
+    const colors: Record<string, string> = {
+        'GET': 'green',
+        'POST': 'blue',
+        'PUT': 'orange',
+        'DELETE': 'red',
+        'PATCH': 'purple'
+    };
+    return colors[method.toUpperCase()] || 'gray';
+};
+
+// 导入菜单 - 先选择导入模式
 const onImport = () => {
+    importModeVisible.value = true;
+};
+
+// 覆盖导入
+const onImportOverwrite = () => {
+    importModeVisible.value = false;
+    triggerImport(true);
+};
+
+// 普通导入
+const onImportNormal = () => {
+    importModeVisible.value = false;
+    triggerImport(false);
+};
+
+// 触发文件选择并执行导入
+const triggerImport = (overwrite: boolean) => {
+    importOverwrite.value = overwrite;
+
     // 如果元素不存在则创建
     if (!fileInputRef.value) {
         const fileInput = document.createElement('input');
@@ -807,19 +924,24 @@ const onImport = () => {
                 // 创建FormData对象
                 const formData = new FormData();
                 formData.append('file', file);
+                formData.append('overwrite', String(importOverwrite.value));
 
                 try {
-                    // 调用导入API
-                    await importMenuAPI(formData);
-
-                    // 导入成功后刷新菜单列表
-                    await getMenuList();
-
-                    // 显示成功消息
-                    arcoMessage("success", "菜单导入成功");
+                    // 调用导入API，获取导入结果
+                    const response = await importMenuAPI(formData);
+                    
+                    if (response.code === 0 && response.data) {
+                        // 保存导入结果
+                        importResult.value = response.data;
+                        
+                        // 刷新菜单列表
+                        await getMenuList();
+                        
+                        // 显示导入结果弹窗
+                        importResultVisible.value = true;
+                    }
                 } catch (error) {
                     console.error(error);
-                    arcoMessage("error", "菜单导入失败");
                 }
 
                 // 清空文件输入以允许选择相同文件
@@ -845,5 +967,33 @@ onMounted(() => {
 <style lang="scss" scoped>
 :deep(.arco-typography code) {
     font-size: 100%;
+}
+
+.import-mode-content {
+    padding: 20px 0;
+    text-align: center;
+
+    p {
+        margin-bottom: 20px;
+        color: var(--color-text-1);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .import-mode-buttons {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.import-result-content {
+    .result-section {
+        h4 {
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-1);
+        }
+    }
 }
 </style>
