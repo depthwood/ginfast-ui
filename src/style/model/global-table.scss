@@ -1,0 +1,38 @@
+// Arco Table 横向滚动条压住最后一行 — 全局修复
+// 须在 arco.css 之后加载（见 main.ts 引入顺序）
+//
+// 仅在实际存在横向滚动时留白（scroll-position-both 表示内容未溢出，无需 padding）
+
+// 非分体：content 定高 + overflow-y:hidden 导致裁切
+.arco-table:not(.arco-table-scroll-y) {
+  .arco-spin,
+  .arco-table-container,
+  .arco-table-content {
+    height: auto !important;
+    min-height: 0;
+  }
+
+  .arco-table-content.arco-table-content-scroll-x {
+    overflow-y: visible !important;
+    overflow-x: auto;
+  }
+
+  // 仅列宽超出容器、出现横向滚动时预留底部空间
+  .arco-table-container:not(.arco-table-scroll-position-both) .arco-table-content.arco-table-content-scroll-x {
+    padding-bottom: 12px !important;
+    box-sizing: border-box;
+  }
+}
+
+// 分体（scroll.y / sticky-header）：表体内部横向滚动时留白
+.arco-table-scroll-y .arco-table-container:not(.arco-table-scroll-position-both) {
+  .arco-table-body {
+    padding-bottom: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .arco-table-body.arco-scrollbar .arco-scrollbar-container {
+    padding-bottom: 12px !important;
+    box-sizing: border-box !important;
+  }
+}

@@ -22,6 +22,7 @@
 
                 <template #content>
                     <div class="right-box">
+                        <div class="right-box-toolbar">
                         <a-space wrap>
                             <a-input v-model="form.name" placeholder="请输入用户名称" allow-clear />
                             <a-input v-model="form.phone" placeholder="请输入手机号码" allow-clear />
@@ -43,9 +44,11 @@
                                 <span>新增</span>
                             </a-button>
                         </a-space>
+                        </div>
 
+                        <div class="right-box-table">
                         <a-table row-key="id" :data="accountList" :bordered="{ cell: true }" :loading="loading"
-                            :scroll="{ x: '120%', y: '85%' }" :pagination="pagination" :selected-keys="selectedKeys"
+                            :scroll="{ x: 'max-content', minWidth: 1200 }" :pagination="pagination" :selected-keys="selectedKeys"
                             @select="select" @select-all="selectAll" @page-change="handlePageChange">
                             <template #columns>
                                 <a-table-column title="ID" data-index="id" :width="70" align="center"></a-table-column>
@@ -105,6 +108,7 @@
                                 </a-table-column>
                             </template>
                         </a-table>
+                        </div>
                     </div>
                 </template>
             </s-fold-page>
@@ -592,8 +596,23 @@ onMounted(() => {
     }
 
     .right-box {
+        display: flex;
         flex: 1;
-        min-width: 0; // 防止 flex 子元素溢出
+        flex-direction: column;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .right-box-toolbar {
+        flex-shrink: 0;
+        margin-bottom: $padding;
+    }
+
+    .right-box-table {
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
     }
 }
 </style>

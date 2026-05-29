@@ -1,6 +1,5 @@
 
 import { createApp } from "vue";
-import "@/style.css";
 import App from "@/App.vue";
 
 // vue-router
@@ -16,7 +15,8 @@ import directives from "@/directives/index";
 import ArcoVue from "@arco-design/web-vue";
 import ArcoVueIcon from "@arco-design/web-vue/es/icon";
 // import "@arco-design/web-vue/dist/arco.css"; // 默认样式
-import '@arco-themes/vue-gi-demo/css/arco.css'; // 自定义主题
+import '@arco-themes/vue-gi-demo/css/arco.css'; // 自定义主题（须在项目样式之前，便于覆盖 Arco 默认）
+import "@/style.css";
 import i18n from "@/lang/index";
 
 
