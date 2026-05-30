@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AAlert: typeof import('@arco-design/web-vue')['Alert']
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
+    ABadge: typeof import('@arco-design/web-vue')['Badge']
     ABreadcrumb: typeof import('@arco-design/web-vue')['Breadcrumb']
     ABreadcrumbItem: typeof import('@arco-design/web-vue')['BreadcrumbItem']
     AButton: typeof import('@arco-design/web-vue')['Button']
@@ -73,6 +74,7 @@ declare module 'vue' {
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     ATree: typeof import('@arco-design/web-vue')['Tree']
     ATreeSelect: typeof import('@arco-design/web-vue')['TreeSelect']
+    ATypographyText: typeof import('@arco-design/web-vue')['TypographyText']
     AUpload: typeof import('@arco-design/web-vue')['Upload']
     AWatermark: typeof import('@arco-design/web-vue')['Watermark']
     ChunkUpload: typeof import('./components/upload/chunk-upload.vue')['default']
