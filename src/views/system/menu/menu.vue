@@ -62,7 +62,8 @@
             <!-- 修改表格数据源为displayMenuList -->
             <a-table ref="tableRef" :data="displayMenuList" :loading="loading" row-key="id" column-resizable
                 :row-selection="{ type: 'checkbox', showCheckedAll: true }" v-model:selectedKeys="selectedKeys"
-                :bordered="{ cell: true }" show-empty-tree :pagination="false" size="medium">
+                :bordered="{ cell: true }" show-empty-tree :pagination="false" size="medium"
+                :scroll="{ x: '100%', y: '100%' }">
                 <template #columns>
                     <a-table-column title="菜单名称" :width="150" tooltip ellipsis>
                         <template #cell="{ record }">
