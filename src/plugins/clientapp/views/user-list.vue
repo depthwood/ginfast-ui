@@ -96,7 +96,7 @@
                 <a-descriptions-item label="ID">{{ detailData.id }}</a-descriptions-item>
                 <a-descriptions-item label="昵称">{{ detailData.nickname }}</a-descriptions-item>
                 <a-descriptions-item label="状态">{{ detailData.status === 1 ? '正常' : '禁用' }}</a-descriptions-item>
-                <a-descriptions-item label="注册来源">{{ REGISTER_SOURCE_OPTIONS.find(i => i.value === detailData.registerSource)?.label }}</a-descriptions-item>
+                <a-descriptions-item label="注册来源">{{ getRegisterSourceLabel(detailData.registerSource) }}</a-descriptions-item>
                 <a-descriptions-item label="备注">{{ detailData.remark || '-' }}</a-descriptions-item>
             </a-descriptions>
             <a-divider orientation="left">身份绑定</a-divider>
@@ -185,6 +185,7 @@ const getIdentityPlaceholder = (type?: string) => {
     if (type === 'phone') return '+8613800138000';
     return 'OpenID / UnionID';
 };
+const getRegisterSourceLabel = (source?: string) => REGISTER_SOURCE_OPTIONS.find(item => item.value === source)?.label || source || '-';
 
 const openForm = async (record?: UserData) => {
     identityList.value = [];
