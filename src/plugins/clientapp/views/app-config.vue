@@ -294,7 +294,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue';
-import { Message, Modal } from '@arco-design/web-vue';
+import { Message } from '@arco-design/web-vue';
 import { useClientHook } from '../hooks/client';
 import { useAppConfigHook } from '../hooks/app-config';
 import type { AppConfigData, AppDecorationPreviewData } from '../api/app-config';
@@ -649,29 +649,14 @@ const loadSnapshots = () => {
 
 const handleCreateSnapshot = () => {
     if (!activeConfigId.value) return;
-    Modal.confirm({
-        title: '保存快照',
-        content: () => {
-            const name = ref(`快照 ${new Date().toLocaleString('zh-CN')}`);
-            return h('div', {}, [
-                h('p', '为当前配置创建一个版本快照，可用于后续回滚。'),
-                h('input', {
-                    value: name.value,
-                    onInput: (e: Event) => { name.value = (e.target as HTMLInputElement).value; },
-                    style: 'width:100%;padding:6px 8px;border:1px solid #e5e6eb;border-radius:4px;margin-top:8px;',
-                    placeholder: '快照名称'
-                })
-            ]);
-        },
-        onOk: async () => {
-            try {
-                await createSnapshot(activeConfigId.value!, `快照 ${new Date().toLocaleString('zh-CN')}`);
-                Message.success('快照创建成功');
-                loadSnapshots();
-            } catch {
-                Message.error('创建快照失败');
-            }
-        }
+    const defaultName = `快照 ${new Date().toLocaleString('zh-CN')}`;
+    const snapshotName = window.prompt('请输入快照名称', defaultName);
+    if (!snapshotName) return;
+    createSnapshot(activeConfigId.value, snapshotName).then(() => {
+        Message.success('快照创建成功');
+        if (snapshotDrawerVisible.value) loadSnapshots();
+    }).catch(() => {
+        Message.error('创建快照失败');
     });
 };
 
@@ -778,25 +763,6 @@ const formatJSON = (value?: unknown, fallback = '{}') => {
     try {
         return JSON.stringify(typeof value === 'string' ? JSON.parse(value || fallback) : value || JSON.parse(fallback), null, 2);
     } catch { return fallback; }
-};
-
-// h function for modal content
-const h = (tag: string, attrs: Record<string, any>, children?: any[]) => {
-    const el = document.createElement(tag);
-    Object.entries(attrs).forEach(([k, v]) => {
-        if (k.startsWith('on')) {
-            el.addEventListener(k.slice(2).toLowerCase(), v);
-        } else if (k === 'style') {
-            el.setAttribute('style', v);
-        } else {
-            (el as any)[k] = v;
-        }
-    });
-    children?.forEach(child => {
-        if (typeof child === 'string') el.appendChild(document.createTextNode(child));
-        else el.appendChild(child);
-    });
-    return el;
 };
 
 onMounted(async () => {
