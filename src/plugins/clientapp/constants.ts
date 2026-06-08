@@ -47,6 +47,28 @@ export const GENDER_OPTIONS = [
     { label: '女', value: 2 }
 ];
 
+export const DEVICE_PLATFORM_OPTIONS = [
+    { label: 'Android', value: 'android' },
+    { label: 'iOS', value: 'ios' },
+    { label: 'Web', value: 'web' }
+];
+
+export const DEVICE_STATUS_OPTIONS = [
+    { label: '停用', value: 0 },
+    { label: '正常', value: 1 },
+    { label: '待审核', value: 2 }
+];
+
+export function getDevicePlatformLabel(platform?: string) {
+    if (!platform) return '-';
+    return DEVICE_PLATFORM_OPTIONS.find(item => item.value === platform)?.label || platform;
+}
+
+export function getDeviceStatusLabel(status?: number) {
+    if (status === undefined || status === null) return '-';
+    return DEVICE_STATUS_OPTIONS.find(item => item.value === status)?.label || String(status);
+}
+
 export function getPlatformLabel(platform?: string) {
     if (!platform) return '-';
     return PLATFORM_LABELS[platform] || platform;

@@ -1,12 +1,19 @@
 import { computed, ref } from 'vue';
-import type { AppConfigData, AppConfigFormData, AppConfigListParams } from '../api/app-config';
+import type { AppConfigData, AppConfigFormData, AppConfigListParams, AppConfigSnapshotData } from '../api/app-config';
 import {
+    activateScheme,
+    createSnapshot,
     deleteAppConfig,
+    deleteSnapshot,
     getAppConfigById,
     getAppConfigList,
+    getPageConfig,
+    listSnapshots,
     publishAppConfig,
+    restoreFromSnapshot,
     saveAppConfig,
-    updateAppConfigStatus
+    savePageConfig,
+    updateAppConfigStatus,
 } from '../api/app-config';
 
 export const useAppConfigHook = () => {
@@ -47,6 +54,35 @@ export const useAppConfigHook = () => {
         currentPage.value = 1;
     };
 
+    // 方案切换
+    const activateConfigScheme = (id: number) => activateScheme({ id });
+
+    // 多页面
+    const fetchPageConfig = (id: number, pageCode: string) => getPageConfig({ id, pageCode });
+    const savePage = (id: number, pageCode: string, pageData: string, autoSave?: boolean) =>
+        savePageConfig({ id, pageCode, pageData, autoSave });
+
+    // 快照管理
+    const snapshots = ref<AppConfigSnapshotData[]>([]);
+    const snapshotsLoading = ref(false);
+
+    const fetchSnapshots = async (configId?: number, clientId?: number) => {
+        snapshotsLoading.value = true;
+        try {
+            const res = await listSnapshots({ configId, clientId });
+            snapshots.value = res.data.list || [];
+        } finally {
+            snapshotsLoading.value = false;
+        }
+    };
+
+    const createConfigSnapshot = (configId: number, name: string, remark?: string) =>
+        createSnapshot({ configId, name, remark });
+
+    const restoreConfigSnapshot = (snapshotId: number) => restoreFromSnapshot({ snapshotId });
+
+    const deleteConfigSnapshot = (id: number) => deleteSnapshot(id);
+
     return {
         dataList,
         loading,
@@ -61,6 +97,18 @@ export const useAppConfigHook = () => {
         publishData,
         deleteData,
         updateStatus,
-        resetSearchParams
+        resetSearchParams,
+        // 方案切换
+        activateScheme: activateConfigScheme,
+        // 多页面
+        fetchPageConfig: fetchPageConfig,
+        savePageConfig: savePage,
+        // 快照管理
+        snapshots,
+        snapshotsLoading,
+        fetchSnapshots,
+        createSnapshot: createConfigSnapshot,
+        restoreSnapshot: restoreConfigSnapshot,
+        deleteSnapshot: deleteConfigSnapshot,
     };
 };
